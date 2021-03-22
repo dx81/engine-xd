@@ -4,11 +4,11 @@ export default class Shader {
         return entity.renderer.vertexColor;
     }
 
-    static edge() {
+    static edge(entity) {
         return entity.renderer.edgeColor;
     }
 
-    static face() {
+    static face(entity) {
         return entity.renderer.faceColor;
     }
 }
