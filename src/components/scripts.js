@@ -1,4 +1,4 @@
-export default class Script {
+export default class Scripts {
     constructor(scripts) {
         if (!Array.isArray(scripts)) {
             scripts = [ scripts ];
