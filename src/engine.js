@@ -4,6 +4,7 @@
 import Entity from "./entity.js";
 import Components from "./components/components.js";
 import Systems from "./systems/systems.js";
+import System from "./systems/system.js";
 import Scenes from "./scenes/scenes.js";
 
 import Matrix from "./matrix.js";
@@ -30,6 +31,11 @@ export default class Engine {
             this[uncap(system)] = new Systems[system](this);
             this.systems[i] = this[uncap(system)];
         });
+
+        this.components = [];
+        Object.keys(Components).forEach((component, i) => {
+            this.components[i] = Components[component];
+        });
     }
 
     Kb = Keyboard;
@@ -37,11 +43,11 @@ export default class Engine {
     static Entity = Entity;
     static Components = Components;
     static Systems = Systems;
+    static System = System;
 
     static Vector = Vector;
     static Matrix = Matrix;
     static Canvas = Canvas;
-    static Geometry = Components.Geometry;
     static Scene = Scene;
     static Scenes = Scenes;
 
@@ -78,7 +84,7 @@ export default class Engine {
         }
     }
 
-    async add(entity) {
+    async addEntity(entity) {
         if (entity.id) {
             this.entity_id = Math.max(this.entity_id, entity.id);
         }
@@ -86,9 +92,24 @@ export default class Engine {
             entity.id = this.entity_id;
             this.entity_id++;
         }
+        for (let i = 0; i < this.components.length; i++) {
+            let component = this.components[i].name;
+            if (!entity[uncap(component)]) continue;
+            entity[uncap(component)] = new this.components[i](entity[uncap(component)], entity);
+        }
         for (let i = 0; i < this.systems.length; i++) {
             await this.systems[i].add(entity);
         }
         this.scene.push(entity);
+    }
+
+    addSystem(system) {
+        this.systems.push(new system(this));
+    }
+
+    clear() {
+        this.scene = [];
+        this.systems = [];
+        this.components = [];
     }
 }

@@ -13,6 +13,6 @@ export default class Transform {
     }
 
     constructor(transform, entity) {
-        return { ...Transform.default(entity.geometry.dimensions), ...transform };
+        return { ...Transform.default(entity.geometry ? entity.geometry.dimensions : 3), ...transform };
     }
 }
