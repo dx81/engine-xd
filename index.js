@@ -6,7 +6,7 @@ window.onload = async () => {
     const display = new Engine.Canvas("main");
     const display2 = new Engine.Canvas("main2");
 
-    const scene = new Engine.Scene();
+    const scene = [];
     const engine = new Engine(scene, [ display, display2 ]);
 
     await engine.addEntity(new Engine.Entity({

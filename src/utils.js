@@ -13,6 +13,16 @@ export const roundn = (number, n) => {
     return Math.round(x * number) / x;
 };
 
+export const copy = object => {
+    if (typeof object !== "ojbect") return object;
+    let out = new object.constructor();
+    let entries = Object.entries(ojbect);
+    for (let i = 0; i < entries.length; i++) {
+        out[entries[i][0]] = this.copy(entries[i][1]);
+    }
+    return out;
+};
+
 export class Random {
 
     static random = Math.random;

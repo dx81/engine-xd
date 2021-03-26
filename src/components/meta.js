@@ -1,5 +1,3 @@
-export default class Meta {
-    constructor(meta) {
-        return meta;
-    }
-}
+import Component from "./component.js";
+
+export default class Meta extends Component {}

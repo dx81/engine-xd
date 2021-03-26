@@ -1,4 +1,6 @@
-export default class Renderer {
+import Component from "./component.js";
+
+export default class Renderer extends Component {
 
     static get default() {
         return {
@@ -10,9 +12,5 @@ export default class Renderer {
             renderEdges: true,
             renderFaces: true,
         };
-    }
-
-    constructor(renderer) {
-        return  { ...Renderer.default, ...renderer };
     }
 }

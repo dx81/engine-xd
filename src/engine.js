@@ -11,9 +11,8 @@ import Matrix from "./matrix.js";
 import Vector from "./vector.js";
 import Canvas from "./canvas.js";
 import Keyboard from "./keyboard.js";
-import { uncap } from "./utils.js";
-
-class Scene extends Array { }
+import { uncap, copy } from "./utils.js";
+import API from "./api.js";
 
 export default class Engine {
 
@@ -25,6 +24,8 @@ export default class Engine {
         this.frame_draws = 0;
 
         this.entity_id = 0;
+
+        this.api = new API(this);
 
         this.systems = [];
         Object.keys(Systems).forEach((system, i) => {
@@ -85,13 +86,7 @@ export default class Engine {
     }
 
     async addEntity(entity) {
-        if (entity.id) {
-            this.entity_id = Math.max(this.entity_id, entity.id);
-        }
-        else {
-            entity.id = this.entity_id;
-            this.entity_id++;
-        }
+        this.assignId(entity);
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i].name;
             if (!entity[uncap(component)]) continue;
@@ -103,6 +98,10 @@ export default class Engine {
         this.scene.push(entity);
     }
 
+    addComponent(component) {
+        this.components.push(component);
+    }
+
     addSystem(system) {
         this.systems.push(new system(this));
     }
@@ -111,5 +110,35 @@ export default class Engine {
         this.scene = [];
         this.systems = [];
         this.components = [];
+    }
+
+    import(scene) {
+        this.scene = [];
+        for (let i = 0; i < scene.length; i++) {
+            this.addEntity(this.addEntity(scene[i]));
+        }
+    }
+
+    export() {
+        return copy(this.scene);
+    }
+
+    assignId(entity) {
+        if (entity.id) {
+            this.entity_id = Math.max(this.entity_id, entity.id + 1);
+        }
+        else {
+            entity.id = this.entity_id;
+            this.entity_id++;
+        }
+        return entity;
+    }
+
+    getEntityById(id) {
+        for (let i = 0; i < this.scene.length; i++) {
+            if (this.scene[i].id === id) {
+                return this.scene[i];
+            }
+        }
     }
 }

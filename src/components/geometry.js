@@ -611,4 +611,8 @@ export default class Geometry {
         out[1 + vertex_count] = out2;
         return out;
     }
+
+    static getEulerCharacteristic(geometry) {
+        return geometry.vertices.length - geometry.edges.length + geometry.faces.length;
+    }
 }
