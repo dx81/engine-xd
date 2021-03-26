@@ -49,7 +49,6 @@ export default class Engine {
     static Vector = Vector;
     static Matrix = Matrix;
     static Canvas = Canvas;
-    static Scene = Scene;
     static Scenes = Scenes;
 
     loop (ts) {
