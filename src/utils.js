@@ -14,9 +14,9 @@ export const roundn = (number, n) => {
 };
 
 export const copy = object => {
-    if (typeof object !== "ojbect") return object;
+    if (typeof object !== "object") return object;
     let out = new object.constructor();
-    let entries = Object.entries(ojbect);
+    let entries = Object.entries(object);
     for (let i = 0; i < entries.length; i++) {
         out[entries[i][0]] = this.copy(entries[i][1]);
     }
