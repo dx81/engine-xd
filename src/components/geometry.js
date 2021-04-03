@@ -26,12 +26,12 @@ export default class Geometry {
             name: "Tetrahedron",
             dimensions: 3,
 
-            vertices: [
+            vertices: Matrix.scalar([
                 [      0,    0, 0.425 ],
                 [  0.577,    0, -0.33 ],
                 [ -0.289,  0.5, -0.33 ],
                 [ -0.289, -0.5, -0.33 ],
-            ],
+            ], 2),
     
             edges: [
                 [ 0, 1 ],
@@ -107,7 +107,7 @@ export default class Geometry {
                 [  0.5, -0.5,       0 ],
                 [  0.5,  0.5,       0 ],
                 [ -0.5,  0.5,       0 ],
-            ], 0.5 / 0.7072),
+            ], 1 / 0.7072),
     
             edges: [
                 [ 2, 3 ],
@@ -250,7 +250,7 @@ export default class Geometry {
                 [      1, -1.618,      0 ],
                 [     -1,  1.618,      0 ],
                 [      1,  1.618,      0 ],
-            ], 0.5 / 1.618),
+            ], 1 / 1.618),
 
             edges: [
                 [  0,  1 ],
