@@ -8,7 +8,7 @@ export default class ProjectionHandler extends System {
 
         for (let i = 0; i < entity.geometry.points.length; i++) {
             entity.geometry.points[i] =
-                Vector.add(Vector.add(Vector.multiply(entity.geometry.points[i], entity.transform.scale), entity.transform.offset), entity.transform.position);
+                [ Vector.add(Vector.add(Vector.multiply(entity.geometry.points[i], entity.transform.scale), entity.transform.offset), entity.transform.position) ];
         }
 
         for (let i = 0; i < entity.geometry.points.length; i++) {
@@ -21,7 +21,7 @@ export default class ProjectionHandler extends System {
                 else {
                     w = camera.camera.distance / (camera.camera.distance - entity.geometry.points[i][0][d - 1]);
                 }
-                entity.geometry.points[i] = Matrix.multiply(ProjectionHandler.matrix(d, w), [ entity.geometry.points[i] ]);
+                entity.geometry.points[i] = Matrix.multiply(ProjectionHandler.matrix(d, w), entity.geometry.points[i]);
             }
             entity.geometry.points[i] = Vector.scalar(entity.geometry.points[i][0], camera.camera.isometric ? camera.camera.scale : camera.camera.scale);
         }
