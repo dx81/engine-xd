@@ -3,11 +3,7 @@ import Matrix from "../matrix.js";
 
 import System from "./system.js";
 
-export default class Rotation extends System {
-    
-    constructor() {
-        super();
-    }
+export default class RotationHandler extends System {
 
     update(list) {
         for (let i = 0; i < list.length; i++) {
@@ -19,26 +15,26 @@ export default class Rotation extends System {
     rotateEntity(entity) {
 
         let dimensions = entity.geometry.dimensions;
-        let rotations = Rotation.axes(dimensions);
+        let rotations = RotationHandler.axes(dimensions);
         let rotation_matrices = [];
 
         for (let i = 0; i < rotations.length; i++) {
-            rotation_matrices[i] = Rotation.matrix(...rotations[i], dimensions, entity.transform.rotation[i])
+            rotation_matrices[i] = RotationHandler.rotationMatrix(...rotations[i], dimensions, entity.transform.rotation[i])
         }
 
-        for (let i = 0; i < entity.geometry.vertices.length; i++) {
+        for (let i = 0; i < entity.geometry.points.length; i++) {
 
-            let vertex = [ Vector.add(Vector.multiply(entity.geometry.vertices[i], entity.transform.scale), entity.transform.offset) ];
+            let vertex = [ Vector.add(Vector.multiply(entity.geometry.points[i], entity.transform.scale), entity.transform.offset) ];
 
             for (let j = 0; j < rotation_matrices.length; j++) {
                 vertex = Matrix.multiply(rotation_matrices[j], vertex);
             }
 
-            entity.geometry.rotated[i] = [ Vector.add(vertex[0], entity.transform.position) ];
+            entity.geometry.points[i] = Vector.divide(Vector.subtract(vertex[0], entity.transform.offset), entity.transform.scale);
         }
     }
 
-    static matrix(axis1, axis2, dimensions, angle) {
+    static rotationMatrix(axis1, axis2, dimensions, angle) {
         let out = Matrix.identity(dimensions);
         let cos = Math.cos(angle);
         let sin = Math.sin(angle);
@@ -61,7 +57,7 @@ export default class Rotation extends System {
         let out = [];
         for (let i = 0; i < dimensions - 1; i++) {
             for (let j = i + 1; j < dimensions; j++) {
-                out.push([i, j])
+                out.push([i, j]);
             }
         }
         return out;
