@@ -5,7 +5,7 @@ export default class Geometry {
     constructor(geometry) {
         geometry = { ...Geometry.Empty, ...geometry };
         return {
-            ...{ points: [ ...geometry.vertices ] },
+            ...{ points: [ ...geometry.vertices ], projected: [] },
             ...geometry
         };
     }
