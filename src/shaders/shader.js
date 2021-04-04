@@ -1,7 +1,6 @@
 export default class Shader {
 
     static vertex(_, engine, entity_id) {
-        console.log(engine, engine_id)
         return engine.scene[entity_id].renderer.vertexColor;
     }
 
