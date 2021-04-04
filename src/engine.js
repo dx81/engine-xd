@@ -5,11 +5,11 @@ import Entity from "./entity.js";
 import Components from "./components/components.js";
 import Systems from "./systems/systems.js";
 import System from "./systems/system.js";
+import Displays from "./displays/displays.js";
 import Scenes from "./scenes/scenes.js";
 
 import Matrix from "./matrix.js";
 import Vector from "./vector.js";
-import Canvas from "./canvas.js";
 import Keyboard from "./keyboard.js";
 import { uncap, copy } from "./utils.js";
 import API from "./api.js";
@@ -45,19 +45,16 @@ export default class Engine {
     static Components = Components;
     static Systems = Systems;
     static System = System;
+    static Displays = Displays;
 
     static Vector = Vector;
     static Matrix = Matrix;
-    static Canvas = Canvas;
     static Scenes = Scenes;
 
     loop (ts) {
         this.frame_id = window.requestAnimationFrame(ts => this.loop(ts));
         this.dt = (ts - this.ms);
         this.ms = ts;
-        this.now = Date.now();
-
-        this.fps = 1000 / this.dt;
 
         this.update();
         this.render();
@@ -72,6 +69,9 @@ export default class Engine {
     }
 
     update() {
+        this.now = Date.now();
+        this.fps = 1000 / this.dt;
+
         for (let i = 0; i < this.systems.length; i++) {
             this.systems[i].update(this.scene);
         }
@@ -82,6 +82,14 @@ export default class Engine {
         for (let i = 0; i < this.systems.length; i++) {
             this.systems[i].render(this.scene);
         }
+    }
+
+    frame(number = 0, dt = 1000 / 60) {
+        this.dt = dt;
+        for (let i = 0; i < number; i++) {
+            this.update();
+        }
+        this.render();
     }
 
     async addEntity(entity) {

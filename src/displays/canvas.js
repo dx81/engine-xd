@@ -1,7 +1,9 @@
-import Vector from "./vector.js";
+import Display from "./display.js";
+import Vector from "../vector.js";
 
-export default class Canvas {
+export default class Canvas extends Display {
     constructor(id, scale = [ 1, 1 ], offset = [ 0, 0 ], bgColor = "#000000", fgColor = "#FFFFFF") {
+        super();
         this.canvas = document.querySelector(`#${id}`);
         this.ctx = this.canvas.getContext("2d");
         this.ctx.lineWidth = 1;
