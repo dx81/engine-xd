@@ -1,14 +1,15 @@
 export default class Shader {
 
-    static vertex(entity) {
-        return entity.renderer.vertexColor;
+    static vertex(_, engine, entity_id) {
+        console.log(engine, engine_id)
+        return engine.scene[entity_id].renderer.vertexColor;
     }
 
-    static edge(entity) {
-        return entity.renderer.edgeColor;
+    static edge(_, engine, entity_id) {
+        return engine.scene[entity_id].renderer.edgeColor;
     }
 
-    static face(entity) {
-        return entity.renderer.faceColor;
+    static face(_, engine, entity_id) {
+        return engine.scene[entity_id].renderer.faceColor;
     }
 }
