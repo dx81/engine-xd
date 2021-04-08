@@ -1,20 +1,36 @@
 import Display from "./display.js";
 
 export default class SVG extends Display {
-    constructor(id, scale = [ 1, 1 ], offset = [ 0, 0 ], bgColor = "#000000", fgColor = "#FFFFFF") {
-        super();
-        this.svg = document.querySelector(`#${id}`);
-        this.scale = scale;
-        this.offset = offset;
-        this.bgColor = bgColor;
-        this.fgColor = fgColor;
+    constructor(id = "svg", options = {}) {
+        super(options);
         this.svgns = "http://www.w3.org/2000/svg";
-        this.svg.setAttribute("viewBox", "-600 -300 1200 600");
+        this.svg = document.getElementById(id);
+        if (!this.svg) {
+            this.svg = document.createElementNS(this.svgns, "svg");;
+            this.svg.setAttribute("id", id);
+            document.querySelector(this.parent).prepend(this.svg);
+        }
+        this.resize();
         this.clear();
     }
 
+    get dimensions() {
+        let rect = this.svg.getBoundingClientRect();
+        return [ rect.width, rect.height ];
+    }
+
+    resize(size = this.size, viewport = this.viewport) {
+        this.svg.setAttribute("width", size[0]);
+        this.svg.setAttribute("height", size[1]);
+        this.scale = this.viewportToScale(viewport);
+        this.svg.setAttribute(
+            "viewBox",
+            `${-size[0] / (2 * this.scale[0])} ${-size[1] / (2 * this.scale[1])} ${size[0] / this.scale[0]} ${size[1] / this.scale[1]}`
+        );
+        return this;
+    }
+
     clear(color = this.bgColor) {
-        console.log(this.svg)
         while (this.svg.firstChild) {
             this.svg.removeChild(this.svg.lastChild);
         }
@@ -58,9 +74,9 @@ export default class SVG extends Display {
         let polygon = document.createElementNS(this.svgns, "polygon");
         let points = "";
         for (let i = 1; i < vertices.length; i++) {
-            points += `${vertices[i][0]},${vertices[i][1]} `
+            points += `${vertices[i][0]},${vertices[i][1]} `;
         }
-        points += `${vertices[0][0]},${vertices[0][1]} `
+        points += `${vertices[0][0]},${vertices[0][1]} `;
         polygon.setAttribute("points", points);
         polygon.setAttribute(method, color);
         this.svg.appendChild(polygon);

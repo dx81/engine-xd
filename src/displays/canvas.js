@@ -2,17 +2,15 @@ import Display from "./display.js";
 import Vector from "../vector.js";
 
 export default class Canvas extends Display {
-    constructor(id, scale = [ 1, 1 ], offset = [ 0, 0 ], bgColor = "#000000", fgColor = "#FFFFFF") {
-        super();
-        this.canvas = document.querySelector(`#${id}`);
+    constructor(id = "canvas", options = {}) {
+        super(options);
+        this.canvas = document.getElementById(id);
+        if (!this.canvas) {
+            this.canvas = document.createElement("canvas");
+            this.canvas.setAttribute("id", id);
+            document.querySelector(this.parent).prepend(this.canvas);
+        }
         this.ctx = this.canvas.getContext("2d");
-        this.ctx.lineWidth = 1;
-        this.scale = scale;
-        this.offset = offset;
-        this.bgColor = bgColor;
-        this.fgColor = fgColor;
-
-        window.addEventListener("resize", this.resize.bind(this));
         this.resize();
         this.clear();
     }
@@ -22,10 +20,19 @@ export default class Canvas extends Display {
         stroke: "strokeStyle"
     }
 
-    resize() {
-        this.ctx.resetTransform();
-        this.ctx.translate(...Vector.scalar([ this.canvas.width - this.offset[0], this.canvas.height - this.offset[1] ], 1/2));
+    get dimensions() {
+        return [ this.canvas.width, this.canvas.height ];
+    }
+
+    resize(size = this.size, viewport = this.viewport) {
+        this.canvas.width = size[0];
+        this.canvas.height = size[1];
+        this.canvas.style.width = size[0];
+        this.canvas.style.height = size[1];
+        this.ctx.translate(...Vector.scalar(size, 0.5));
+        this.scale = this.viewportToScale(viewport);
         this.ctx.scale(...this.scale);
+        this.ctx.lineWidth = this.lineWidth / this.scale[0];
         return this;
     }
 

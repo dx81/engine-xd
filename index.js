@@ -3,15 +3,14 @@ import Engine from "./src/engine.js";
 const N = (x, n) => Array(n).fill(x);
 
 window.onload = async () => {
-    const display = new Engine.Displays.Canvas("main");
     const display2 = new Engine.Displays.Canvas("main2");
+    const display = new Engine.Displays.Canvas("main");
 
     const scene = [];
     const engine = new Engine(scene, [ display, display2 ]);
 
     await engine.addEntity(new Engine.Entity({
         camera: {
-            distance: 200,
             isometric: false,
         },
     }));
