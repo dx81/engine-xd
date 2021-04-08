@@ -19,7 +19,7 @@ export default class ProjectionHandler extends System {
                     w =  1;
                 }
                 else {
-                    w = camera.camera.distance / (camera.camera.distance - entity.geometry.projected[i][0][d - 1]);
+                    w = (camera.camera.cameraZ - camera.camera.canvasZ) / (camera.camera.cameraZ - entity.geometry.projected[i][0][d - 1]);
                 }
                 entity.geometry.projected[i] = Matrix.multiply(ProjectionHandler.matrix(d, w), entity.geometry.projected[i]);
             }

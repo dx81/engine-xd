@@ -21,4 +21,17 @@ export default class ShaderHandler extends System {
                 (await import(`../shaders/${shaders[this.constructor.shaderTypes[i]].name}.js`)).default;
         }
     }
+
+    vertex(entity, entity_idx, element_idx) {
+        return this.shaders[entity.shaders.vertex.name].vertex.apply(entity, [ entity.shaders.vertex.args, this.engine, entity_idx, element_idx ]);
+
+    }
+
+    edge(entity, entity_idx, element_idx) {
+        return this.shaders[entity.shaders.edge.name].edge.apply(entity, [ entity.shaders.edge.args, this.engine, entity_idx, element_idx ]);
+    }
+
+    face(entity, entity_idx, element_idx) {
+        return this.shaders[entity.shaders.face.name].face.apply(entity, [ entity.shaders.face.args, this.engine, entity_idx, element_idx ]);
+    }
 }

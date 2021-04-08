@@ -30,7 +30,13 @@ export default class RendererHandler extends System {
     renderVertices(entity, entity_id, display) {
         if (!entity.renderer.renderVertices) return;
         for (let i = 0; i < entity.geometry.projected.length; i++) {
-            let color = this.engine.shaderHandler.shaders[entity.shaders.vertex.name].vertex.apply(entity, [ entity.shaders.vertex.args, this.engine, entity_id, i ]); 
+            let color;
+            if (entity.shaders) {
+                color = this.engine.shaderHandler.vertex(entity, entity_id, i);
+            }
+            else {
+                color = entity.renderer.vertexColor;
+            }
             display.circle(entity.geometry.projected[i], 1, color, "fill");
             this.engine.frame_draws++;
         }
@@ -41,7 +47,13 @@ export default class RendererHandler extends System {
         for (let i = 0; i < entity.geometry.edges.length; i++) {
             let a = entity.geometry.projected[entity.geometry.edges[i][0]];
             let b = entity.geometry.projected[entity.geometry.edges[i][1]];
-            let color = this.engine.shaderHandler.shaders[entity.shaders.edge.name].edge.apply(entity, [ entity.shaders.edge.args, this.engine, entity_id, i ]); 
+            let color;
+            if (entity.shaders) {
+                color = this.engine.shaderHandler.edge(entity, entity_id, i);
+            }
+            else {
+                color = entity.renderer.edgeColor;
+            }
             display.line(a, b, color);
             this.engine.frame_draws++;
         }
@@ -54,7 +66,13 @@ export default class RendererHandler extends System {
             for (let j = 0; j < entity.geometry.faces[i].length; j++) {
                 vertices[j] = entity.geometry.projected[entity.geometry.faces[i][j]];
             }
-            let color = this.engine.shaderHandler.shaders[entity.shaders.face.name].face.apply(entity, [ entity.shaders.face.args, this.engine, entity_id, i ]); 
+            let color;
+            if (entity.shaders) {
+                color = this.engine.shaderHandler.face(entity, entity_id, i);
+            }
+            else {
+                color = entity.renderer.faceColor;
+            }
             display.polygon(vertices, color);
             this.engine.frame_draws++;
         }
