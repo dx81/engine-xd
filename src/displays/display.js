@@ -2,8 +2,8 @@ export default class Display {
     bgColor = "#000000";
     fgColor ="#FFFFFF";
     parent = "body";
-    size = [ 600, 300];
-    viewport = { height: 200 };
+    size = [ 600, 300 ];
+    viewport = {};
     scale = [ 1, 1 ];
     lineWidth = 1;
 
