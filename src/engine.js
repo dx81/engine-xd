@@ -3,6 +3,7 @@
 
 import Entity from "./entity.js";
 import Components from "./components/components.js";
+import Component from "./components/component.js";
 import Systems from "./systems/systems.js";
 import System from "./systems/system.js";
 import Displays from "./displays/displays.js";
@@ -43,6 +44,7 @@ export default class Engine {
 
     static Entity = Entity;
     static Components = Components;
+    static Component = Component;
     static Systems = Systems;
     static System = System;
     static Displays = Displays;

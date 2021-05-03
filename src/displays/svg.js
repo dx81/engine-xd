@@ -27,6 +27,7 @@ export default class SVG extends Display {
             "viewBox",
             `${-size[0] / (2 * this.scale[0])} ${-size[1] / (2 * this.scale[1])} ${size[0] / this.scale[0]} ${size[1] / this.scale[1]}`
         );
+        this.currentLineWidth = this.lineWidth / this.scale[0];
         return this;
     }
 
@@ -66,6 +67,7 @@ export default class SVG extends Display {
         line.setAttribute("x2", pos2[0]);
         line.setAttribute("y2", pos2[1]);
         line.setAttribute("stroke", color);
+        line.setAttribute("strokeWidth", this.currentLineWidth);
         this.svg.appendChild(line);
         return this;
     }
