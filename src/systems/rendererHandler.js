@@ -5,6 +5,7 @@ export default class RendererHandler extends System {
         super();
         this.engine = engine;
         this.displays = displays;
+        this.defaultVertexSize = 1;
     }
 
     renderCamera(camera, list) {
@@ -37,7 +38,7 @@ export default class RendererHandler extends System {
             else {
                 color = entity.renderer.vertexColor;
             }
-            display.circle(entity.geometry.projected[i], 1, color, "fill");
+            display.circle(entity.geometry.projected[i], this.defaultVertexSize, color, "fill");
             this.engine.frame_draws++;
         }
     }
