@@ -37,8 +37,8 @@ export default class Canvas extends Display {
     }
 
     clear(color = this.bgColor) {
-        let w = this.canvas.width;
-        let h = this.canvas.height;
+        let w = this.canvas.width / this.scale[0];
+        let h = this.canvas.height / this.scale[1];
         this.ctx.fillStyle = color;
         this.ctx.fillRect(-w, -h, 2 * w, 2 * h);
         return this;
